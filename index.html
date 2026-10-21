@@ -1,0 +1,263 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>まきのたん 歌える曲リスト</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Kiwi+Maru:wght@400;500&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<style>
+/* layout: soda-water header with chibi fairy + candy, original songs as featured candy tiles, sticky search, artist drawer (ABC / あいう) */
+:root{
+ --bg:#f3fbff;--surface:#ffffff;--ink:#23455a;--muted:#6f8fa3;--line:#d4ecf7;
+ --sky:#7cc8ee;--sky-deep:#2f93c6;--pop:#ff9ec7;--pop-soft:#ffe3ef;--chip:#e6f6fd;--scrim:rgba(20,50,70,.35);
+ --f-cute:"Hachi Maru Pop","Zen Maru Gothic",sans-serif;
+ --f-list:"Kiwi Maru","Zen Maru Gothic",serif;
+ --f-ui:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c25;--surface:#162833;--ink:#dcf1fb;--muted:#8fb0c2;--line:#25404f;--sky:#4aa8d8;--sky-deep:#8fd3f5;--pop:#ff8cbd;--pop-soft:#3a2230;--chip:#1c3442;--scrim:rgba(0,0,0,.55);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1c25;--surface:#162833;--ink:#dcf1fb;--muted:#8fb0c2;--line:#25404f;--sky:#4aa8d8;--sky-deep:#8fd3f5;--pop:#ff8cbd;--pop-soft:#3a2230;--chip:#1c3442;--scrim:rgba(0,0,0,.55);color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-weight:500;line-height:1.6}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:relative;overflow:hidden;background:linear-gradient(170deg,var(--sky) 0%,var(--bg) 100%)}
+header .wrap{padding-block:26px 18px;position:relative;z-index:1;display:flex;align-items:center;gap:6px}
+.bub{position:absolute;border-radius:50%;border:2px solid rgba(255,255,255,.7);background:rgba(255,255,255,.18)}
+@media (prefers-reduced-motion:no-preference){.bub{animation:rise 9s ease-in-out infinite alternate}.fairy{animation:float 3.2s ease-in-out infinite alternate}.candy{animation:wob 4s ease-in-out infinite alternate}}
+@keyframes rise{to{transform:translateY(-14px)}}
+@keyframes float{to{transform:translateY(-6px) rotate(-3deg)}}
+@keyframes wob{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}
+.mascot{flex:none;width:68px;height:auto}
+.candy{width:60px}
+.title{flex:1;min-width:0;text-align:center}
+.eyebrow{font-size:11px;letter-spacing:.18em;opacity:.75}
+h1{font-family:var(--f-cute);font-weight:400;font-size:clamp(28px,8.4vw,42px);line-height:1.15;margin:2px 0 4px;letter-spacing:.02em}
+h1 small{display:block;font-size:.46em;color:var(--sky-deep);margin-top:4px}
+.count{font-size:13px}
+.count b{font-family:var(--f-cute);font-weight:400;font-size:18px;color:var(--sky-deep);font-variant-numeric:tabular-nums}
+
+/* original songs */
+.orig{padding-block:6px 4px}
+.orig-head{display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--f-cute);font-size:20px;color:var(--pop);margin:4px 0 10px}
+.orig-head span{font-family:var(--f-ui);font-size:12px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tile{all:unset;box-sizing:border-box;cursor:pointer;background:var(--pop-soft);border:2px solid var(--pop);border-radius:18px 18px 18px 6px;padding:10px 12px;font-family:var(--f-cute);font-size:clamp(12px,3.3vw,15px);line-height:1.35;color:var(--ink);overflow-wrap:anywhere;display:flex;align-items:center;gap:6px;min-height:52px}
+.tile:nth-child(even){border-radius:18px 18px 6px 18px}
+.tile::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--pop);box-shadow:0 0 0 3px var(--surface)}
+.tile:hover{transform:translateY(-1px)}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .wrap{padding-block:10px;display:grid;gap:8px}
+.search{display:flex;gap:8px;align-items:center}
+.search input{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:9px 16px}
+.search input:focus{outline:none;border-color:var(--sky)}
+.icon-btn{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--sky-deep);cursor:pointer;display:grid;place-items:center}
+.icon-btn svg{width:22px;height:22px}
+.btn{font:inherit;font-size:14px;font-weight:700;border:0;border-radius:999px;padding:10px 14px;background:var(--pop);color:#3b1028;cursor:pointer;white-space:nowrap}
+.btn:focus-visible,.chip:focus-visible,.song:focus-visible,.tile:focus-visible,.icon-btn:focus-visible,.art:focus-visible,.tab:focus-visible{outline:3px solid var(--sky-deep);outline-offset:2px}
+.active{display:flex;gap:6px;align-items:center;font-size:13px}
+.chip{font:inherit;font-size:13px;border:1.5px solid var(--sky-deep);background:var(--sky-deep);color:var(--bg);border-radius:999px;padding:4px 12px;cursor:pointer}
+
+main .wrap{padding-block:16px 60px;display:grid;gap:18px}
+.group h2{font-family:var(--f-cute);font-size:15px;font-weight:400;color:var(--sky-deep);margin:0 0 6px;display:flex;gap:8px;align-items:baseline}
+.group h2 span{font-family:var(--f-ui);color:var(--muted);font-size:12px}
+ul{list-style:none;margin:0;padding:0;background:var(--surface);border-radius:16px;border:1px solid var(--line)}
+li+li{border-top:1px dashed var(--line)}
+.song{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 14px;cursor:pointer;font-family:var(--f-list);font-size:15px}
+.song .t{min-width:0;overflow-wrap:anywhere}
+.song .r{flex:none;font-family:var(--f-ui);font-size:11px;color:var(--muted)}
+.song:hover .r{color:var(--sky-deep)}
+.new{font-style:normal;font-family:var(--f-ui);font-size:10px;font-weight:700;color:#fff;background:var(--pop);border-radius:6px;padding:1px 5px;margin-left:6px;vertical-align:2px}
+mark{background:none;color:var(--sky-deep);font-weight:700;border-bottom:2px solid var(--pop)}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:30}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(340px,88vw);background:var(--bg);z-index:31;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,.15);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px)}
+.d-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px;font-family:var(--f-cute);font-size:18px;color:var(--sky-deep)}
+.tabs{display:flex;gap:6px;padding:0 16px 8px}
+.tab{flex:1;font:inherit;font-weight:700;font-size:14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--sky-deep);border-color:var(--sky-deep);color:var(--bg)}
+.idx{display:flex;flex-wrap:wrap;gap:4px;padding:0 16px 8px;border-bottom:1px solid var(--line)}
+.idx a{font-size:12px;color:var(--sky-deep);text-decoration:none;background:var(--chip);border-radius:8px;padding:2px 7px;min-width:14px;text-align:center}
+.d-body{overflow-y:auto;padding:8px 16px 24px;flex:1}
+.d-body h3{font-family:var(--f-cute);font-weight:400;font-size:16px;color:var(--pop);margin:12px 0 4px;scroll-margin-top:8px}
+.arts{display:flex;flex-wrap:wrap;gap:6px}
+.art{font:inherit;font-size:13px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px;cursor:pointer;text-align:left}
+.art span{color:var(--muted);font-size:11px;margin-left:4px}
+.art.on{border-color:var(--sky-deep);color:var(--sky-deep)}
+.special{display:flex;gap:6px;padding:0 16px 10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;max-width:calc(100% - 32px);text-align:center;z-index:40}
+footer{text-align:center;color:var(--muted);font-size:12px;padding-block:0 32px}
+</style>
+
+<header>
+ <i class="bub" style="width:70px;height:70px;right:4%;top:6px"></i>
+ <i class="bub" style="width:26px;height:26px;left:30%;top:8px;animation-delay:-3s"></i>
+ <i class="bub" style="width:40px;height:40px;left:4%;bottom:6px;animation-delay:-6s"></i>
+ <div class="wrap">
+  <svg class="mascot fairy" viewBox="0 0 100 110" aria-hidden="true">
+   <g stroke="#3d5a80" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M47 50 C30 20 6 18 8 40 C9 52 26 56 44 56 Z" fill="#c8ecff" opacity=".95"/>
+    <path d="M45 58 C28 58 14 66 18 80 C22 90 38 80 46 64 Z" fill="#e7d4ff" opacity=".95"/>
+    <path d="M53 50 C70 20 94 18 92 40 C91 52 74 56 56 56 Z" fill="#c8ecff" opacity=".95"/>
+    <path d="M55 58 C72 58 86 66 82 80 C78 90 62 80 54 64 Z" fill="#e7d4ff" opacity=".95"/>
+    <path d="M36 28 Q30 40 32 48 Q28 50 24 46 Q25 54 33 53 Q41 52 41 40 Z" fill="#d9443b"/>
+    <path d="M64 28 Q70 40 68 48 Q72 50 76 46 Q75 54 67 53 Q59 52 59 40 Z" fill="#d9443b"/>
+    <path d="M44 60 L40 74 M56 60 L60 74" fill="none" stroke="#f2c7a5" stroke-width="3.5"/>
+    <path d="M43 70 L57 70 L64 86 Q50 92 36 86 Z" fill="#e8384f"/>
+    <path d="M44 56 Q50 54 56 56 L57.5 71 L42.5 71 Z" fill="#ff9ec7"/>
+    <path d="M45 86 L44 102 M55 86 L56 102" fill="none" stroke="#f2c7a5" stroke-width="4"/>
+    <circle cx="50" cy="36" r="16" fill="#f8d9bf"/>
+    <path d="M34 36 Q32 16 50 15 Q68 16 66 36 Q60 26 50 25 Q40 26 34 36 Z" fill="#d9443b"/>
+   </g>
+   <path d="M60 75 L71 61" stroke="#8a5a2b" stroke-width="2.6" stroke-linecap="round"/>
+   <circle cx="72" cy="60" r="6" fill="#fff6b0" opacity=".55"/>
+   <path d="M72 54.5 l1.6 3.6 3.9.4-2.9 2.6.8 3.8-3.4-2-3.4 2 .8-3.8-2.9-2.6 3.9-.4z" fill="#ffd84d" stroke="#c99a00" stroke-width="1" stroke-linejoin="round"/>
+   <circle cx="60" cy="75" r="2.6" fill="#f2c7a5"/>
+   <ellipse cx="44" cy="38" rx="2.2" ry="2.8" fill="#2f3a45"/><ellipse cx="56" cy="38" rx="2.2" ry="2.8" fill="#2f3a45"/>
+   <ellipse cx="40" cy="44" rx="3" ry="1.8" fill="#ffaccb" opacity=".8"/><ellipse cx="60" cy="44" rx="3" ry="1.8" fill="#ffaccb" opacity=".8"/>
+   <path d="M47 45 Q50 48 53 45" fill="none" stroke="#2f3a45" stroke-width="1.6" stroke-linecap="round"/>
+   <circle cx="20" cy="20" r="1.8" fill="#ffd84d"/><circle cx="84" cy="16" r="2.2" fill="#ffd84d"/><circle cx="88" cy="94" r="1.6" fill="#ffd84d"/>
+  </svg>
+  <div class="title">
+   <div class="eyebrow">MIZUTA MAKINO · SONG LIST</div>
+   <h1>まきのたん<small>うたえる曲リスト</small></h1>
+   <div class="count"><b id="total">0</b> 曲 ／ <b id="artists">0</b> アーティスト</div>
+  </div>
+  <svg class="mascot candy" viewBox="0 0 90 60" aria-hidden="true">
+   <defs><clipPath id="cb"><ellipse cx="45" cy="30" rx="22" ry="17"/></clipPath></defs>
+   <g stroke="#3d6f93" stroke-width="2" stroke-linejoin="round">
+    <path d="M24 30 L6 14 L10 22 L3 26 L10 30 L3 34 L10 38 L6 46 Z" fill="#ffffff"/>
+    <path d="M66 30 L84 14 L80 22 L87 26 L80 30 L87 34 L80 38 L84 46 Z" fill="#ffffff"/>
+    <ellipse cx="45" cy="30" rx="22" ry="17" fill="#8fd6f5"/>
+   </g>
+   <g clip-path="url(#cb)" fill="#ff8fc0">
+    <path d="M20 10 h7 l18 40 h-7z"/><path d="M36 10 h7 l18 40 h-7z"/><path d="M52 10 h7 l18 40 h-7z"/>
+   </g>
+   <ellipse cx="45" cy="30" rx="22" ry="17" fill="none" stroke="#3d6f93" stroke-width="2"/>
+   <ellipse cx="36" cy="21" rx="5" ry="2.6" fill="#fff" transform="rotate(-25 36 21)"/>
+  </svg>
+ </div>
+</header>
+
+<section class="orig wrap" id="origSec" aria-labelledby="origH">
+ <div class="orig-head" id="origH">オリジナルSONG <span id="origN"></span></div>
+ <div class="tiles" id="tiles"></div>
+</section>
+
+<div class="bar"><div class="wrap">
+ <div class="search">
+  <button class="icon-btn" id="menu" type="button" aria-label="アーティストからさがす" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <input id="q" type="search" placeholder="曲名・アーティストでさがす" aria-label="曲名・アーティストで検索" autocomplete="off">
+  <button class="btn" id="random" type="button">おまかせ🎲</button>
+ </div>
+ <div class="active" id="active" hidden>表示中：<button class="chip" id="clear" type="button"></button></div>
+</div></div>
+
+<main><div class="wrap" id="list"></div></main>
+<footer class="wrap">曲名をタップすると「リクエスト文」がコピーされるよ🩵</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="アーティスト一覧">
+ <div class="d-head">アーティストからさがす<button class="icon-btn" id="close" type="button" aria-label="閉じる"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ <div class="special"><button class="art" type="button" data-a="">すべての曲</button><button class="art" type="button" data-a="オリジナル">🩵オリジナルSONG</button></div>
+ <div class="tabs" role="tablist"><button class="tab" role="tab" type="button" data-k="abc" aria-selected="true">ABC</button><button class="tab" role="tab" type="button" data-k="kana" aria-selected="false">あいう</button></div>
+ <nav class="idx" id="idx"></nav>
+ <div class="d-body" id="dbody"></div>
+</aside>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+let SONGS=[["ALICE","オリジナル"],["HOW LOW","オリジナル"],["SAKURA","オリジナル"],["きみのソファー","オリジナル"],["キラキラとぅないと","オリジナル"],["ヒカリ","オリジナル"],["モノクロバタフライ","オリジナル"],["レインボー","オリジナル"],["Honey Life","オリジナル"],["ふゆこい〜冬とミルクときみ。〜","オリジナル"],["赤い長靴","オリジナル"],["ドッペルゲンガー","オリジナル"],["shooting girl","オリジナル"],["2人のストーリー","YUKI"],["Baby it's you","YUKI"],["COSMIC BOX","YUKI"],["Hello it's me","YUKI"],["Home Sweet Home","YUKI"],["JOY","YUKI"],["just life all life","YUKI"],["share","YUKI"],["かたまり","YUKI"],["風になれ","YUKI"],["こぼれてしまうよ","YUKI"],["さよならバイスタンダー","YUKI"],["ひみつ","YUKI"],["ふがいないや","YUKI"],["ポストに声をなげいれて","YUKI"],["愛に生きて","YUKI"],["坂道のメロディー","YUKI"],["誰でもロンリー","YUKI"],["鳴いてる怪獣","YUKI"],["鳴り響く限り","YUKI"],["裸の太陽","YUKI"],["星屑サンセット","YUKI"],["長い夢","YUKI"],["揺れるスカート","YUKI"],["歓びの種","YUKI"],["惑星にのれ","YUKI"],["クライマークライマー","YUKI"],["ドラマチック","YUKI"],["ハローグッバイ","YUKI"],["ビスケット","YUKI"],["フラッグを立てろ","YUKI"],["ベイビーベイビー","YUKI"],["プリズム","YUKI"],["メランコリニスタ","YUKI"],["ラスボス","YUKI"],["ランデブー","YUKI"],["ワンダーライン","YUKI"],["BLUE TEARS","JUDY AND MARY"],["RADIO","JUDY AND MARY"],["小さな頃から","JUDY AND MARY"],["ひとつだけ","JUDY AND MARY"],["あなたは生きている","JUDY AND MARY"],["エゴイスト","JUDY AND MARY"],["ステレオ全開","JUDY AND MARY"],["BIRTHDAY SONG","JUDY AND MARY"],["pinky loves him","JUDY AND MARY"],["風に吹かれて","JUDY AND MARY"],["手紙を書くよ","JUDY AND MARY"],["すてきなうた","JUDY AND MARY"],["どうしよう","JUDY AND MARY"],["プラチナ","JUDY AND MARY"],["Cheese \"PIZZA\"","JUDY AND MARY"],["自転車","JUDY AND MARY"],["motto","JUDY AND MARY"],["ラッキープール","JUDY AND MARY"],["そばかす","JUDY AND MARY"],["ドキドキ","JUDY AND MARY"],["DAYDREAM","JUDY AND MARY"],["イロトリドリノセカイ","JUDY AND MARY"],["LOVER SOUL","JUDY AND MARY"],["散歩道","JUDY AND MARY"],["Over Drive","JUDY AND MARY"],["クラシック","JUDY AND MARY"],["BATHROOM","JUDY AND MARY"],["Brand New Wave Upper Ground","JUDY AND MARY"],["ラブリーベイベー","JUDY AND MARY"],["Kissの温度","JUDY AND MARY"],["Happy?","JUDY AND MARY"],["The Great Escape","JUDY AND MARY"],["おめでとう","JUDY AND MARY"],["Hello Orange Sunshine","JUDY AND MARY"],["クリスマス","JUDY AND MARY"],["ジーザスジーザス","JUDY AND MARY"],["Miracle Night Diving","JUDY AND MARY"],["Llittle Miss Highway","JUDY AND MARY"],["#あくあ色パレット","湊あくあ"],["あいわな","湊あくあ"],["残響讃歌","Aimer"],["コイワズライ","Aimer"],["遥か","Aimer"],["愛の病","aiko"],["桜の時","aiko"],["カブトムシ","aiko"],["花火","aiko"],["ボーイフレンド","aiko"],["Power of love","aiko"],["転がる岩、君に朝が降る","ASIAN KUNG-FU GENERATION"],["ムスタング","ASIAN KUNG-FU GENERATION"],["かくれんぼ","ALiA"],["勿忘","Awesome City Club"],["世界のつづき","Ado"],["新時代","Ado"],["私は最強","Ado"],["うっせぇわ","Ado"],["阿修羅ちゃん","Ado"],["創聖のアクエリオン","AKINO"],["hikari","androp"],["happy birthday","back number"],["クリスマスソング","back number"],["水平線","back number"],["高嶺の花子さん","back number"],["オーケストラ","Bish"],["プロミスザスター","Bish"],["my landscape","Bish"],["beautifulさ","Bish"],["もっと光を","BLUE ENCOUNT"],["ray","BUMP OF CHICKEN"],["倍倍FIGHT!","CANDY TUNE"],["強く儚い者たち","Cocco"],["Raining","Cocco"],["雲路の果て","Cocco"],["SAMURAI DRIVE","CUNE"],["青空","CUNE"],["クローバー","CUNE"],["カノン","CUNE"],["リフレイン","CUNE"],["ファジーネーブル","Conton Candy"],["やさしい気持ち","CHARA"],["ミルク","CHARA"],["打ち上げ花火","DAOKO"],["拝啓グッバイさようなら","DAOKO"],["もしも僕らがGAMEの主役で","DAOKO"],["命の行方","DASTCELL"],["猫","DISH//"],["LOVE LOVE LOVE","DREEM COME TRUE"],["サンキュー","DREEM COME TRUE"],["何度でも","DREEM COME TRUE"],["フィナーレ","eill"],["Dear My Friend","Every Little Thing"],["For the moment","Every Little Thing"],["Feel My Heart","Every Little Thing"],["fragile","Every Little Thing"],["Shaps Of love","Every Little Thing"],["Time goes by","Every Little Thing"],["恋文","Every Little Thing"],["出逢った頃のように","Every Little Thing"],["Misshing","ELLEGARDEN"],["風の日","ELLEGARDEN"],["only my railgun","fripSide"],["夢","FLOWER FLOWER"],["はちゃめちゃわちゃライフ！","FRUITS ZIPPER"],["金曜日のおはよう","Gero"],["こいのうた","GO!GO!7188"],["拝啓、少年よ","Hump Back"],["可愛くてごめん","Honey Works"],["誇り高きアイドル","Honey Works"],["金曜日のおはよう","Honey Works"],["12秒","HKT48"],["くいしんぼハッカー","Neko Hacker"],["愛は勝つ","KAN"],["いなずま","NOMELON NOLEMON"],["HALO","NOMELON NOLEMON"],["moonshadow","NOMELON NOLEMON"],["SAYONARA MAYBE","NOMELON NOLEMON"],["線香金魚","NOMELON NOLEMON"],["ハイド・アンド・シーク","NOMELON NOLEMON"],["水光接天","NOMELON NOLEMON"],["点描の唄","Mrs.GREEN APPLE"],["僕のこと","Mrs.GREEN APPLE"],["青と夏","Mrs.GREEN APPLE"],["物語はここから","ONE LOVE ONE HEART"],["イエスタデイ","official髭男dism"],["ミックスナッツ","official髭男dism"],["subtitle","official髭男dism"],["シル・ヴ・プレジデント","P丸様。"],["愛のしるし","PUFFY"],["アジアの純真","PUFFY"],["これが私の生きる道","PUFFY"],["サーキットの娘","PUFFY"],["渚にまつわるエトセトラ","PUFFY"],["これがあたしの生きる道","PUFFY"],["再生","Perfume"],["チョコレイト・ディスコ","Perfume"],["ポリリズム","Perfume"],["レーザービーム","Perfume"],["Challenger","Perfume"],["FLASH","Perfume"],["FLOW","Perfume"],["GLETTER","Perfume"],["Spring of life","Perfume"],["STAR TRAIN","Perfume"],["TOKYO GIRL","Perfume"],["VOICE","Perfume"],["微かなカオリ","Perfume"],["コミュニケーション","Perfume"],["超来輪","Perfume"],["ねぇ","Perfume"],["未来のミュージアム","Perfume"],["無限未来","Perfume"],["MY COLOR","Perfume"],["Future Pop","Perfume"],["M","PRINCESS PREINCESS"],["世界でいちばん熱い夏","PRINCESS PREINCESS"],["Go!Go!Heaven","SPEED"],["Whaite Love","SPEED"],["STEDY","SPEED"],["Body&Soul","SPEED"],["my graduation","SPEED"],["熱帯夜","SPEED"],["タイミング〜Timing〜","Klang Ruler"],["紅蓮華","Lisa"],["炎","Lisa"],["Hand in Hand","livetune"],["Packaged","livetune"],["Tell Your World","livetune"],["もっと愛し合いましょ","LINDBERG"],["夢をかなえてドラえもん","mao"],["トウキョウ・シャンディ・ランダブ","MAISONdes"],["ヨワネハキ","MAISONdes"],["ヒカリへ","miwa"],["リトルガール","miwa"],["HANABI","Mr.Children"],["youthful days","Mr.Children"],["ALICE","My Little Lover"],["DESTINY","My Little Lover"],["Hello,Again〜昔からある場所〜","My Little Lover"],["NOW AND THEN〜失われた時を求めて〜","My Little Lover"],["Man&Woman","My Little Lover"],["Shuffle","My Little Lover"],["ライオン（マクロス）","May'n/中島愛"],["くうになる","MIMI"],["言えない（feet.asmi）","MIMiNARI"],["ルカルカ★ナイトフィーバー","MOSAICU.TUNE&初音ミク"],["ファンサ","mona"],["晩餐歌","tuki."],["怪獣の唄","Vaundy"],["Swallowtail butterfly〜あいのうた〜","YEN TOWN BAND"],["アイドル","YOASOBI"],["夜に駆ける","YOASOBI"],["たぶん","YOASOBI"],["あの夢をなぞって","YOASOBI"],["怪物","YOASOBI"],["群青","YOASOBI"],["ハルジオン","YOASOBI"],["ハルカ","YOASOBI"],["三原色","YOASOBI"],["ラブレター","YOASOBI"],["舞台に立って","YOASOBI"],["アイサレタイ","Yumcha"],["負けないで","ZARD"],["マイフレンド","ZARD"],["マイ フレンド","ZARD"],["シンデレラボーイ","SaucyDog"],["グレイ","sajou no hana"],["in bloom","School Food Punishment"],["スターライトパレード","SEKAINO OWARI"],["炎と森のカーニバル","SEKAINO OWARI"],["Dragon Night","SEKAINO OWARI"],["眠り姫","SEKAINO OWARI"],["青い太陽","SEKAINO OWARI"],["明日も","SHISHAMO"],["1/3の純情な感情","SIAM SHADE"],["チェリボム","Silent Siren"],["milk boy","Silent Siren"],["八月の夜","Silent Siren"],["君の知らない物語","supercell"],["エミューレーション","stargaze shelter"],["There will be love there-愛のある場所-","the brlliant green"],["angel song-イヴの鐘-","the brlliant green"],["TRAIN-TRAIN","THE BLUE HEARTS"],["リンダリンダ","THE BLUE HEARTS"],["夏祭り","Whiteberry"],["feel my soul","YUI"],["Rolling star","YUI"],["Reverb","yunchi✳︎"],["secret base ～君がくれたもの～","ZONE"],["分かってないよ","Wruts"],["愛の花","あいみょん"],["裸の心","あいみょん"],["Link","愛美"],["NOW ON AIR","赤い公園"],["You(=i)","赤頬思春期"],["貴方の恋人になりたいのです","阿部真央"],["I wanna see you","阿部真央"],["ロンリー","阿部真央"],["タッチ","岩崎良美"],["空と青","家入レオ"],["ブルーバード","いきものがかり"],["Automatic","宇多田ヒカル"],["ぼくはくま","宇多田ヒカル"],["Sweet Hug","宇野実彩子（AAA）"],["微笑みの爆弾","馬渡松子"],["ら・ら・ら","大黒摩季"],["甘えんぼ","大塚愛"],["さくらんぼ","大塚愛"],["プラネタリウム","大塚愛"],["黒毛和牛タン塩","大塚愛"],["金魚花火","大塚愛"],["桃の花ビラ","大塚愛"],["TOMORROW","岡本真夜"],["僕らが旅に出る理由","小沢健二"],["My life","花譜"],["リルラリルハ","木村カエラ"],["Butterfly","木村カエラ"],["LOVE &JOY","木村由姫"],["つけまつける","きゃりーぱみゅぱみゅ"],["ファッションモンスター","きゃりーぱみゅぱみゅ"],["PON PON PON","きゃりーぱみゅぱみゅ"],["キミに100パーセント","きゃりーぱみゅぱみゅ"],["きみのみかた","きゃりーぱみゅぱみゅ"],["原宿いやほい","きゃりーぱみゅぱみゅ"],["インベーターインベーダー","きゃりーぱみゅぱみゅ"],["もんだいガール","きゃりーぱみゅぱみゅ"],["にんじゃりばんばん","きゃりーぱみゅぱみゅ"],["Crazy Party Night ～ぱんぷきんの逆襲～","きゃりーぱみゅぱみゅ"],["CANDY CANDY","きゃりーぱみゅぱみゅ"],["最＆高","きゃりーぱみゅぱみゅ"],["きらきらキラー","きゃりーぱみゅぱみゅ"],["コスメティックコースター","きゃりーぱみゅぱみゅ"],["きみがいいねくれたら","きゃりーぱみゅぱみゅ"],["もったいないとらんど","きゃりーぱみゅぱみゅ"],["1/2","川本真琴"],["フロントメモリー","川本真琴"],["ミカヅキ","さユり"],["愛しさと せつなさと　心強さと","篠原涼子"],["転がる岩、君に朝が降る","結束バンド"],["キューティーハニー","倖田來未"],["SSW","コレサワ"],["碧いうさぎ","酒井法子"],["歌舞伎町の女","椎名林檎"],["ここでキスして","椎名林檎"],["ギプス","椎名林檎"],["長く短い祭り","椎名林檎"],["本能","椎名林檎"],["丸の内サディスティック","椎名林檎"],["夜の踊り子","サカナクション"],["粛聖!!ロリ神レクイエム⭐︎","しぐれうい"],["あいつら全員同窓会","ずっと真夜中でいいのに。"],["海馬成長痛","ずっと真夜中でいいのに。"],["正義","ずっと真夜中でいいのに。"],["正しくなれない","ずっと真夜中でいいのに。"],["秒針を噛む","ずっと真夜中でいいのに。"],["胸の煙","ずっと真夜中でいいのに。"],["チェリー","スピッツ"],["空も飛べるはず","スピッツ"],["ロビンソン","スピッツ"],["会いたい","澤田千可子"],["ウォーアイニー","高橋瞳"],["スキスキ絶頂症","電ポルP"],["貴方の恋人になりたい","チョーキューメイ"],["紡ぐ","とた"],["真宵子","ナツノセ"],["アシンメトリ","ねごと"],["カロン","ねごと"],["ループループ","ねごと"],["ペディキュアday","ノースリーブス"],["ひまわりの約束","秦基博"],["七色の少年","パスピエ"],["恋愛サーキュレーション","花澤香菜"],["部屋とYシャツと私","平松愛理"],["若者のすべて","フジファブリック"],["僕らはここにいる","ベイビーレイズJAPAN"],["トゲめくスピカ","ポルカドットスティングレイ"],["栞","クリープハイプ"],["憂、燦々","クリープハイプ"],["シャングリラ","チャットモンチー"],["一等星になれなかった君へ","チャットモンチー"],["フォニイ","ツミキ"],["気になるあの娘","相対性理論"],["LOVEずっきゅん","相対性理論"],["チャイナアドバイス","相対性理論"],["となりのトトロ","ジブリ"],["やさしさに包まれたなら","ジブリ"],["ルージュの伝言","ジブリ"],["カントリーロード","ジブリ"],["さんぽ","ジブリ"],["君をのせて","ジブリ"],["God knows","涼宮ハルヒ"],["仮契約のシンデレラ","私立恵比寿中学"],["エジソン","水曜日のカンパネラ"],["桃太郎","水曜日のカンパネラ"],["フロントメモリー","鈴木　瑛美子"],["テルーの唄","手嶌葵"],["明日への手紙","手嶌葵"],["糸","中島みゆき"],["1000日間","乃紫"],["more than words","羊文学"],["古時計","平井堅"],["瞳をとじて","平井堅"],["幸せになりたい","広瀬香美"],["ロマンスの神様","広瀬香美"],["ふわふわタイム","放課後ティータイム"],["ごはんはおかず","放課後ティータイム"],["don't say lazy","放課後ティータイム"],["U&I","放課後ティータイム"],["天使にふれたよ","放課後ティータイム"],["春よ、来い","松任谷由美"],["いーあるふぁんくらぶ","みきとP"],["少女レイ","みきとP"],["キミトソーダ","宮川愛李"],["「ハジメマシテ」","宮川愛李"],["ドライフラワー","優里"],["世界が終わりました","優里"],["アポリア","ヨルシカ"],["靴の花火","ヨルシカ"],["ただ君に晴れ","ヨルシカ"],["花に亡霊","ヨルシカ"],["風を食む","ヨルシカ"],["憂、燦々","ヨルシカ"],["夏恋花火","40mP"],["星間飛行","ランカー・リー＝中島愛"],["danceasphalt","リーガルリリー"],["キラキラの灰","リーガルリリー"],["リッケンバッカー","リーガルリリー"],["ムスタング","リーガルリリー"],["Mela!","緑黄色社会"],["フレンズ","レベッカ"],["えんとつ町のプペル","ロザリーナ"]];
+// 漢字で始まるアーティストの読み（行）
+const YOMI={"湊あくあ":"ま","愛美":"あ","赤い公園":"あ","赤頬思春期":"あ","阿部真央":"あ","岩崎良美":"あ","家入レオ":"あ","宇多田ヒカル":"あ","宇野実彩子（AAA）":"あ","馬渡松子":"ま","大黒摩季":"あ","大塚愛":"あ","岡本真夜":"あ","小沢健二":"あ","花譜":"か","花澤香菜":"は","木村カエラ":"か","木村由姫":"か","川本真琴":"か","篠原涼子":"さ","結束バンド":"か","倖田來未":"か","酒井法子":"さ","椎名林檎":"さ","澤田千可子":"さ","高橋瞳":"た","電ポルP":"た","秦基博":"は","平松愛理":"は","相対性理論":"さ","涼宮ハルヒ":"さ","私立恵比寿中学":"さ","水曜日のカンパネラ":"さ","鈴木　瑛美子":"さ","手嶌葵":"た","中島みゆき":"な","乃紫":"な","羊文学":"は","平井堅":"は","広瀬香美":"は","放課後ティータイム":"は","松任谷由美":"ま","宮川愛李":"ま","優里":"や","緑黄色社会":"ら"};
+const ROWS=["あ","か","さ","た","な","は","ま","や","ら","わ"];
+const ROWSTART="あかさたなはまやらわ";
+const hira=s=>s.replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
+function rowOf(a){
+ if(YOMI[a])return YOMI[a];
+ const c=hira(a.normalize('NFKC')[0]).normalize('NFD')[0];
+ if(/[a-z]/i.test(c))return null;
+ if(/[ぁ-ん]/.test(c)){const big="あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもや_ゆ_よらりるれろわ___をん";const s=c.replace(/[ぁぃぅぇぉっゃゅょ]/,x=>String.fromCharCode(x.charCodeAt(0)+1));const i=big.indexOf(s);return i<0?"あ":ROWS[Math.min(Math.floor(i/5),9)]}
+ return "#";
+}
+function keyOf(a){if(IDX[a]){const k=IDX[a];return /^[A-Z#]$/.test(k)?{t:"abc",k}:{t:"kana",k}}const c=a.normalize('NFKC')[0];if(/[a-z]/i.test(c))return{t:"abc",k:c.toUpperCase()};const r=rowOf(a);return r==="#"?{t:"abc",k:"#"}:{t:"kana",k:r}}
+
+const norm=s=>hira(s.normalize('NFKC').toLowerCase()).replace(/[\s・〜～\-]/g,'');
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// ▼ スプレッドシート連携（共有を「リンクを知っている全員：閲覧者」にしておく）
+const SHEET_ID="1eWCQde_2lu_oNVJQAXhbKwh-t2IABOx61uEeRGu5a5U";
+const SHEET_URL="https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent("曲リスト");
+const IDX={},NEWS=new Set();
+let by={},others=[];
+function build(rows){
+ SONGS=rows.map(r=>[r[0],r[1]]);
+ by={};const seen=[];
+ SONGS.forEach(([t,a])=>{if(!by[a]){by[a]=[];seen.push(a)}by[a].push(t)});
+ others=seen.filter(a=>a!=='オリジナル');
+ const sortKey=a=>{const k=keyOf(a);return (k.t==="abc"?"0"+(k.k==="#"?"~":k.k):"1"+ROWSTART.indexOf(k.k))+norm(a)};
+ others.sort((x,y)=>sortKey(x).localeCompare(sortKey(y),'ja'));
+ document.getElementById('total').textContent=SONGS.length;
+ document.getElementById('artists').textContent=others.length;
+ document.getElementById('origN').textContent=(by['オリジナル']||[]).length+'曲';
+}
+function parseCSV(text){const out=[];let row=[],f='',q=false;for(let i=0;i<text.length;i++){const c=text[i];if(q){if(c=='"'){if(text[i+1]=='"'){f+='"';i++}else q=false}else f+=c}else if(c=='"')q=true;else if(c==','){row.push(f);f=''}else if(c=='\n'||c=='\r'){if(c=='\r'&&text[i+1]=='\n')i++;row.push(f);out.push(row);row=[];f=''}else f+=c}if(f||row.length){row.push(f);out.push(row)}return out}
+async function loadSheet(){
+ try{
+  const res=await fetch(SHEET_URL,{cache:'no-store'});if(!res.ok)throw 0;
+  const rows=parseCSV(await res.text()).slice(1).map(r=>r.map(x=>(x||'').trim())).filter(r=>r[0]&&r[1]);
+  if(!rows.length)throw 0;
+  rows.forEach(r=>{const k=(r[2]||'').trim();if(k)IDX[r[1]]=/^[a-z]$/i.test(k)?k.toUpperCase():k;if(r[3])NEWS.add(r[1]+'\u0000'+r[0])});
+  build(rows);render();
+ }catch(e){/* 読めないときはページ内の曲リストで表示 */}
+}
+build(SONGS);
+let filter='';
+const qi=document.getElementById('q'),list=document.getElementById('list'),tiles=document.getElementById('tiles'),origSec=document.getElementById('origSec');
+function hl(text,q){if(!q)return esc(text);const ch=[...text];let joined='',map=[];ch.forEach((c,i)=>{const n=norm(c);for(const _ of n)map.push(i);joined+=n});const k=joined.indexOf(q);if(k<0)return esc(text);const s=map[k],e=map[k+q.length-1];return esc(ch.slice(0,s).join(''))+'<mark>'+esc(ch.slice(s,e+1).join(''))+'</mark>'+esc(ch.slice(e+1).join(''))}
+function render(){
+ const q=norm(qi.value);
+ // originals
+ const showOrig=!filter||filter==='オリジナル';
+ const o=(by['オリジナル']||[]).filter(t=>!q||norm(t).includes(q)||'おりじなる'.includes(q));
+ origSec.hidden=!showOrig||!o.length;
+ tiles.innerHTML=o.map(t=>`<button class="tile" type="button" data-t="${esc(t)}" data-a="オリジナル">${hl(t,q)}${NEWS.has('オリジナル\u0000'+t)?'<i class="new">NEW</i>':''}</button>`).join('');
+ let html='',n=0;
+ if(filter!=='オリジナル')for(const a of others){
+  if(filter&&a!==filter)continue;
+  const aHit=q&&norm(a).includes(q);
+  const items=by[a].filter(t=>!q||aHit||norm(t).includes(q));
+  if(!items.length)continue;n+=items.length;
+  html+=`<section class="group"><h2>${hl(a,aHit?q:'')}<span>${items.length}曲</span></h2><ul>`+items.map(t=>`<li><button class="song" type="button" data-t="${esc(t)}" data-a="${esc(a)}"><span class="t">${hl(t,aHit?'':q)}${NEWS.has(a+'\u0000'+t)?'<i class="new">NEW</i>':''}</span><span class="r">リクエスト</span></button></li>`).join('')+'</ul></section>';
+ }
+ list.innerHTML=html||(origSec.hidden?'<p class="empty">見つからなかったよ🥺<br>ひらがな・カタカナ・英語をかえて試してみてね</p>':'');
+ const act=document.getElementById('active');act.hidden=!filter;document.getElementById('clear').textContent=(filter==='オリジナル'?'オリジナルSONG':filter)+'  ✕';
+ document.querySelectorAll('.art').forEach(b=>b.classList.toggle('on',b.dataset.a===filter));
+}
+qi.addEventListener('input',render);
+document.getElementById('clear').addEventListener('click',()=>{filter='';render()});
+
+// drawer
+const drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim'),menu=document.getElementById('menu');
+let tab='abc';
+function buildDrawer(){
+ const groups={};others.forEach(a=>{const k=keyOf(a);if(k.t!==tab)return;(groups[k.k]=groups[k.k]||[]).push(a)});
+ const keys=Object.keys(groups).sort((x,y)=>tab==='kana'?ROWSTART.indexOf(x)-ROWSTART.indexOf(y):(x==='#')-(y==='#')||x.localeCompare(y));
+ document.getElementById('idx').innerHTML=keys.map(k=>`<a href="#g-${tab}-${k==='#'?'num':k}" data-k="${k}">${k==='#'?'0-9':k}</a>`).join('');
+ document.getElementById('dbody').innerHTML=keys.map(k=>`<h3 id="g-${tab}-${k==='#'?'num':k}">${k==='#'?'0-9':k==='あ'||tab==='abc'?k:k}${tab==='kana'?'行':''}</h3><div class="arts">${groups[k].map(a=>`<button class="art${a===filter?' on':''}" type="button" data-a="${esc(a)}">${esc(a)}<span>${by[a].length}</span></button>`).join('')}</div>`).join('');
+}
+document.getElementById('idx').addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();document.getElementById(a.getAttribute('href').slice(1)).scrollIntoView({block:'start'})});
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{tab=t.dataset.k;document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));buildDrawer();document.getElementById('dbody').scrollTop=0}));
+function openD(){buildDrawer();drawer.hidden=scrim.hidden=false;menu.setAttribute('aria-expanded','true');document.getElementById('close').focus()}
+function closeD(){drawer.hidden=scrim.hidden=true;menu.setAttribute('aria-expanded','false');menu.focus()}
+menu.addEventListener('click',openD);document.getElementById('close').addEventListener('click',closeD);scrim.addEventListener('click',closeD);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!drawer.hidden)closeD()});
+drawer.addEventListener('click',e=>{const b=e.target.closest('.art');if(!b)return;filter=b.dataset.a;qi.value='';render();closeD();(filter==='オリジナル'?origSec:document.querySelector('.bar')).scrollIntoView({block:'start'})});
+
+// copy
+const toast=document.getElementById('toast');let tt;
+function say(m){toast.textContent=m;toast.hidden=false;clearTimeout(tt);tt=setTimeout(()=>toast.hidden=true,2200)}
+function copyReq(t,a){const msg=`「${t}」${a==='オリジナル'?'':'（'+a+'）'}リクエストです🩵`;const done=()=>say('コピーしたよ！コメント欄に貼ってね🫧');try{navigator.clipboard.writeText(msg).then(done,()=>say(msg))}catch(e){say(msg)}}
+document.addEventListener('click',e=>{const b=e.target.closest('.song,.tile');if(b)copyReq(b.dataset.t,b.dataset.a)});
+document.getElementById('random').addEventListener('click',()=>{const pool=!filter?SONGS:SONGS.filter(s=>s[1]===filter);const [t,a]=pool[Math.floor(Math.random()*pool.length)];qi.value=t;render();copyReq(t,a)});
+render();
+loadSheet();
+</script>
+</body></html>
