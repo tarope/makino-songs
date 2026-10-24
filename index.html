@@ -13,7 +13,9 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c25;--surface:#162833;--ink:#dcf1fb;--muted:#8fb0c2;--line:#25404f;--sky:#4aa8d8;--sky-deep:#8fd3f5;--pop:#ff8cbd;--pop-soft:#3a2230;--chip:#1c3442;--scrim:rgba(0,0,0,.55);color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0f1c25;--surface:#162833;--ink:#dcf1fb;--muted:#8fb0c2;--line:#25404f;--sky:#4aa8d8;--sky-deep:#8fd3f5;--pop:#ff8cbd;--pop-soft:#3a2230;--chip:#1c3442;--scrim:rgba(0,0,0,.55);color-scheme:dark}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-weight:500;line-height:1.6}
+html,body{max-width:100%;overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-weight:500;line-height:1.6;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header{position:relative;overflow:hidden;background:linear-gradient(170deg,var(--sky) 0%,var(--bg) 100%)}
 header .wrap{padding-block:26px 18px;position:relative;z-index:1;display:flex;align-items:center;gap:6px}
@@ -43,19 +45,23 @@ h1 small{display:block;font-size:.46em;color:var(--sky-deep);margin-top:4px}
 
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-.bar .wrap{padding-block:10px;display:grid;gap:8px}
-.search{display:flex;gap:8px;align-items:center}
-.search input{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:9px 16px}
+.bar .wrap{padding-block:10px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.search{display:block;min-width:0}
+.search input{display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;-webkit-appearance:none;appearance:none;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:9px 16px}
 .search input:focus{outline:none;border-color:var(--sky)}
+.actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.sub-btn{min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:14px;font-weight:700;color:var(--sky-deep);background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub-btn svg{flex:none;width:18px;height:18px}
+.sub-btn[aria-expanded="true"]{border-color:var(--sky-deep)}
 .icon-btn{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--sky-deep);cursor:pointer;display:grid;place-items:center}
 .icon-btn svg{width:22px;height:22px}
 .btn{font:inherit;font-size:14px;font-weight:700;border:0;border-radius:999px;padding:10px 14px;background:var(--pop);color:#3b1028;cursor:pointer;white-space:nowrap}
-.btn:focus-visible,.chip:focus-visible,.song:focus-visible,.tile:focus-visible,.icon-btn:focus-visible,.art:focus-visible,.tab:focus-visible{outline:3px solid var(--sky-deep);outline-offset:2px}
+.btn:focus-visible,.sub-btn:focus-visible,.chip:focus-visible,.song:focus-visible,.tile:focus-visible,.icon-btn:focus-visible,.art:focus-visible,.tab:focus-visible{outline:3px solid var(--sky-deep);outline-offset:2px}
 .active{display:flex;gap:6px;align-items:center;font-size:13px}
 .chip{font:inherit;font-size:13px;border:1.5px solid var(--sky-deep);background:var(--sky-deep);color:var(--bg);border-radius:999px;padding:4px 12px;cursor:pointer}
 
 main .wrap{padding-block:16px 60px;display:grid;gap:18px}
-.group h2{font-family:var(--f-cute);font-size:15px;font-weight:400;color:var(--sky-deep);margin:0 0 6px;display:flex;gap:8px;align-items:baseline}
+.group h2{font-family:var(--f-cute);font-size:15px;font-weight:400;color:var(--sky-deep);margin:0 0 6px;display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline;overflow-wrap:anywhere;min-width:0}
 .group h2 span{font-family:var(--f-ui);color:var(--muted);font-size:12px}
 ul{list-style:none;margin:0;padding:0;background:var(--surface);border-radius:16px;border:1px solid var(--line)}
 li+li{border-top:1px dashed var(--line)}
@@ -144,8 +150,10 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding-block:0 32px}
 
 <div class="bar"><div class="wrap">
  <div class="search">
-  <button class="icon-btn" id="menu" type="button" aria-label="アーティストからさがす" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <input id="q" type="search" placeholder="曲名・アーティストでさがす" aria-label="曲名・アーティストで検索" autocomplete="off">
+ </div>
+ <div class="actions">
+  <button class="sub-btn" id="menu" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>アーティストからさがす</button>
   <button class="btn" id="random" type="button">おまかせ🎲</button>
  </div>
  <div class="active" id="active" hidden>表示中：<button class="chip" id="clear" type="button"></button></div>
@@ -193,7 +201,7 @@ function build(rows){
  by={};const seen=[];
  SONGS.forEach(([t,a])=>{if(!by[a]){by[a]=[];seen.push(a)}by[a].push(t)});
  others=seen.filter(a=>a!=='オリジナル');
- const sortKey=a=>{const k=keyOf(a);return (k.t==="abc"?"0"+(k.k==="#"?"~":k.k):"1"+ROWSTART.indexOf(k.k))+norm(a)};
+ const sortKey=a=>{const k=keyOf(a);return (k.t==="abc"?"0"+(k.k==="#"?"ZZ":k.k):"1"+ROWSTART.indexOf(k.k))+norm(a)};
  others.sort((x,y)=>sortKey(x).localeCompare(sortKey(y),'ja'));
  document.getElementById('total').textContent=SONGS.length;
  document.getElementById('artists').textContent=others.length;
