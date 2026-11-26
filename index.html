@@ -172,6 +172,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .btn{font:inherit;font-size:14px;font-weight:700;border:0;border-radius:999px;padding:10px 14px;background:var(--a2);color:var(--a2ink);cursor:pointer;white-space:nowrap}
 .btn:focus-visible,.sub-btn:focus-visible,.chip:focus-visible,.song:focus-visible,.tile:focus-visible,.gift:focus-visible,.icon-btn:focus-visible,.art:focus-visible,.tab:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .active{display:flex;gap:6px;align-items:center;font-size:13px}
+.hint{margin:0;text-align:center;font-size:12px;line-height:1.4;color:var(--muted)}
 .chip{font:inherit;font-size:13px;border:1.5px solid var(--a1);background:var(--a1);color:var(--bg);border-radius:999px;padding:4px 12px;cursor:pointer}
 
 main{position:relative;z-index:3}
@@ -206,7 +207,7 @@ mark{background:none;color:var(--a1);font-weight:700;border-bottom:2px solid var
 .special{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;max-width:calc(100% - 32px);text-align:center;z-index:40}
 footer{text-align:center;color:var(--muted);font-size:12px;padding-block:0 10px;position:relative;z-index:3}
-.copy{text-align:center;color:var(--muted);font-size:11px;line-height:1.6;margin:0;padding-block:4px 32px;position:relative;z-index:3;opacity:.85}
+.copy{text-align:center;color:var(--muted);font-size:11px;line-height:1.6;margin:0;padding-block:0 32px;position:relative;z-index:3;opacity:.85}
 </style>
 </head>
 <body>
@@ -395,11 +396,11 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding-block:0 10px;
   <button class="sub-btn" id="menu" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>アーティストからさがす</button>
   <button class="btn" id="random" type="button">おまかせ🎲</button>
  </div>
+ <p class="hint" id="foot">曲名をタップすると「リクエスト文」がコピーされるよ🩵</p>
  <div class="active" id="active" hidden>表示中：<button class="chip" id="clear" type="button"></button></div>
 </div></div>
 
 <main><div class="wrap" id="list"></div></main>
-<footer class="wrap" id="foot">曲名をタップすると「リクエスト文」がコピーされるよ🩵</footer>
 <p class="copy wrap">© 2026 MIZUTA MAKINO<br>このページのデザイン・内容の無断転載・転用を禁じます</p>
 
 <div class="scrim" id="scrim" hidden></div>
